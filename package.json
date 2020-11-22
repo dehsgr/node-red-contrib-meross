@@ -1,0 +1,24 @@
+{
+	"name": "node-red-contrib-meross",
+	"version": "1.0.0",
+	"description": "This provides nodes for controlling Meross devices.",
+	"author": "d3h56r",
+	"license": "ISC",
+	"keywords": [
+		"node-red",
+		"meross"
+	],
+	"node-red": {
+		"nodes": {
+			"meross-config": "meross/meross-config.js",
+			"smartplug-control": "meross/smartplug-control.js"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dehsgr/node-red-contrib-meross.git"
+	},
+	"dependencies": {
+		"request": "^2.75.0"
+	}
+}
