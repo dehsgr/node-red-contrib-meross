@@ -1,9 +1,9 @@
 # node-red-contrib-meross 
 
-This provides nodes for locally controlling e.g. Meross Smart Plug (without cloud!). It's requiring a Merross token and a corresponding timestamp to be provided by you. You should get this data via network sniffer or traffic interception between your Meross app and your Smart Plug. node-red-contrib-meross delivers 2 nodes:
+This provides nodes for locally controlling e.g. Meross Smart Plug (without cloud!). It's requiring a Merross token and a corresponding message id and timestamp to be provided by you. You should get this data via network sniffer or traffic interception between your Meross app and your Smart Plug. node-red-contrib-meross delivers 2 nodes:
 
 ## Meross Config
-Meross Config is a config node to set the token and timestamp for being able to locally communicate with your devices.
+Meross Config is a config node to set the token, message id and timestamp for being able to locally communicate with your devices.
 
 ## Meross Smart Plug
 Meross Smart Plug can be used to set smart plugs state and/or poll its current state. For setting smart plugs state to on|off you simply provide a boolean value (true|false). To request its current state you send any non-boolean payload.
