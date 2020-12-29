@@ -18,7 +18,7 @@ module.exports = function(RED) {
                 }, 
                 body: JSON.stringify({
                     'header': {
-                        'messageId': 'd31722ef727e2314ad0736cb99beb11f',
+                        'messageId': Platform.config.messageid,
                         'method': (typeof msg.payload === 'boolean') ?
                                   'SET' :
                                   'GET',
