@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    RED.nodes.registerType('smartgarage-control',{
+        category: 'Meross',
+        defaults: {    
+            confignode: { value: '', type: 'meross-config' },
+            name: { value: '' },
+            ip: { value: '', type: 'text', required: true },
+            uuid: { value: '', type: 'text', required: true }
+        },
+        inputs: 1,				// set the number of inputs - only 0 or 1
+        outputs: 1,             // set the number of outputs - 0 to n
+        icon: 'smartgarage.png',  // saved in icons/myicon.png
+        color: '#005AFF', 
+        label: function() {
+            return this.name || 'Smart Garage';
+        },
+        paletteLabel: 'Smart Garage',
+    });
+</script>
+
+<!-- Setting design and inputs for node -->
+<script type="text/x-red" data-template-name="smartgarage-control">
+    <div class="form-row">
+        <label for="node-input-confignode"> Meross</label>
+        <input type="text" id="node-input-confignode">
+    </div>
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Meross Smart Garage Node Name">
+	</div>
+	<div class="form-row">
+		<label for="node-input-ip"><i class="fa fa-tag"></i> IP</label>
+		<input type="text" id="node-input-ip" placeholder="IP address of your Smart Garage">
+	</div>
+	<div class="form-row">
+		<label for="node-input-uuid"><i class="fa fa-tag"></i> UUID</label>
+		<input type="text" id="node-input-uuid" placeholder="UUID of your Smart Garage">
+	</div>
+</script>
+
+<!-- Simple Help Text -->
+<script type="text/x-red" data-help-name="evogarage-control">
+	<p>A node to control Meross Smart Garage.</p>
+</script>
