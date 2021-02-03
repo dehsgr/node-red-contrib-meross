@@ -11,7 +11,8 @@
 	"node-red": {
 		"nodes": {
 			"meross-config": "meross/meross-config.js",
-			"smartplug-control": "meross/smartplug-control.js"
+			"smartplug-control": "meross/smartplug-control.js",
+			"smartgarage-control": "meross/smartgarage-control.js"
 		}
 	},
 	"repository": {

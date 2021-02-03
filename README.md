@@ -11,6 +11,7 @@ Meross Smart Plug can be used to set smart plugs state and/or poll its current s
 # Currently supported devices
 - Meross Smart Plug MSS110(EU)
 - Meross Smart Plug MSS210(EU)
+- Meross Garage Door MSG100
 
 # Requesting additional devices
 To be able to implement additional devices feel free to provide sniffed communication between your app and devices.
