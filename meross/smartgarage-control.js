@@ -36,7 +36,7 @@ module.exports = function(RED) {
                         'state': {
                             'open': msg.payload ? 1 : 0,
                             'channel': 0,
-                            'uuid': Platform.uuid +'0'
+                            'uuid': makeUUID(16)
                         }
                     } : 
                     {}
@@ -49,7 +49,7 @@ module.exports = function(RED) {
                     try {
                         var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
                                 msg.payload :
-                                j.payload.all.digest.togglex[0].onoff === 1 ? true : false;
+                                j.payload.all.digest.garageDoor[0].open === 1 ? true : false;
                     }
                     catch (e) {
                         var r = 'Received unexpected data!';
@@ -59,6 +59,15 @@ module.exports = function(RED) {
             });       
         });
     }
+    
+    function makeUUID(size) {
+        let uuid = '';
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        while (uuid.length < size) {
+            uuid += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+        return uuid;
+     }
 
     RED.nodes.registerType('smartgarage-control', SmartGarageNode);
 };
