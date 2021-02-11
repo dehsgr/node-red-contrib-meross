@@ -15,7 +15,10 @@ Meross Garage Door can be used to set garage doors state and/or poll its current
 <table>
   <tr>
     <td><b>Meross Garage Door</b></td>
-    <td>- MSG100</td>
+    <td>
+      - MSG100<br />
+      - MSG200<br />
+    </td>
   </tr>
   <tr>
     <td><b>Meross Smart Plug</b></td>
