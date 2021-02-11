@@ -5,7 +5,7 @@
 			confignode: { value: '', type: 'meross-config' },
 			name: { value: '' },
 			ip: { value: '', type: 'text', required: true },
-			channel: { value: '0', type: 'text', required: false, validate: RED.validators.number() }
+			channel: { value: '', type: 'text', required: false, validate: RED.validators.number() }
 		},
 		inputs: 1,				// set the number of inputs - only 0 or 1
 		outputs: 1,			 	// set the number of outputs - 0 to n
@@ -14,7 +14,7 @@
 		label: function() {
 			return this.name || 'Smart Garage';
 		},
-		paletteLabel: 'Smart Garage'
+		paletteLabel: 'Smart Garage',
 	});
 </script>
 
