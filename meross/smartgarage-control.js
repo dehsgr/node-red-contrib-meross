@@ -9,7 +9,7 @@ module.exports = function(RED) {
 
 		this.config = RED.nodes.getNode(myNode.confignode);
 		this.ip = myNode.ip;
-		this.channel = myNode.channel;
+		this.channel = myNode.channel || 0;
 
 		this.on('input', function (msg) {
 			request.post({
