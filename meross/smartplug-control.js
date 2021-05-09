@@ -34,7 +34,7 @@ module.exports = function(RED) {
 					 {
 						'togglex': {
 							'onoff': msg.payload ? 1 : 0,
-							'channel': 0
+							'channel': msg.channel || 0
 						}
 					} : 
 					{}
@@ -47,7 +47,7 @@ module.exports = function(RED) {
 					try {
 						var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
 								msg.payload :
-								j.payload.all.digest.togglex[0].onoff === 1 ? true : false;
+								j.payload.all.digest.togglex[msg.channel].onoff === 1 ? true : false;
 					}
 					catch (e) {
 						var r = 'Received unexpected data!';
