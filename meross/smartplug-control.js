@@ -26,6 +26,8 @@ module.exports = function(RED) {
 						'sign': Platform.config.token,
 						'namespace': (typeof msg.payload === 'boolean') ?
 									 'Appliance.Control.ToggleX' :
+									 (msg.payload.namespace !== undefined) ?
+									 msg.payload.namespace :
 									 'Appliance.System.All',
 						'timestamp': parseInt(Platform.config.timestamp),
 						'payloadVersion': 1
@@ -45,13 +47,21 @@ module.exports = function(RED) {
 				} else {
 					var j = JSON.parse(myResponse.body);
 					try {
-						var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
+						switch (j.header.method) {
+							case 'Appliance.Control.Electricity':
+								r = j.payload;
+								break;
+
+							default:
+								var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
 								msg.payload :
 								j.payload.all.digest.togglex[msg.channel || 0].onoff === 1 ? true : false;
+						}
 					}
 					catch (e) {
 						var r = 'Received unexpected data!';
 					}
+
 					Platform.send({ payload : r });
 				}
 			});	   
