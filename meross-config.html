@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	RED.nodes.registerType('meross-config', {
+		category: 'config',
+		defaults: {
+			name: { value: '' },
+			timestamp: { value: '', required: true, validate: RED.validators.number() },
+			token: { value: '', required: true },
+			messageid: { value: '', required: true }
+		},
+		label: function() {
+			return this.name || 'Meross';
+		}
+	});
+</script>
+
+<script type="text/x-red" data-template-name="meross-config">
+	<div class="form-row">
+		<label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-config-input-name" placeholder="Name">
+	</div>
+	<div class="form-row">
+		<label for="node-config-input-timestamp"><i class="fa fa-tag"></i> Timestamp</label>
+		<input type="text" id="node-config-input-timestamp">
+	</div>
+	<div class="form-row">
+		<label for="node-config-input-userid"><i class="fa fa-tag"></i> Token</label>
+		<input type="text" id="node-config-input-token">
+	</div>
+	<div class="form-row">
+		<label for="node-config-input-messageid"><i class="fa fa-tag"></i> Message ID</label>
+		<input type="text" id="node-config-input-messageid">
+	</div>
+</script>
