@@ -47,7 +47,7 @@ module.exports = function(RED) {
 				} else {
 					var j = JSON.parse(myResponse.body);
 					try {
-						switch (j.header.method) {
+						switch (j.header.namespace) {
 							case 'Appliance.Control.Electricity':
 								r = j.payload;
 								break;
