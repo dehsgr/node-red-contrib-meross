@@ -11,36 +11,38 @@ module.exports = function(RED) {
 		this.ip = myNode.ip;
 
 		this.on('input', function (msg) {
+			var thisBody = JSON.stringify({
+                                        'header': {
+                                                'messageId': Platform.config.messageid,
+                                                'method': (typeof msg.payload === 'boolean') ?
+                                                                  'SET' :
+                                                                  'GET',
+                                                'from': 'http://' + Platform.ip + '/config',
+                                                'sign': Platform.config.token,
+                                                'namespace': (typeof msg.payload === 'boolean') ?
+                                                                         'Appliance.Control.ToggleX' :
+                                                                         (msg.payload.namespace !== undefined) ?
+                                                                         msg.payload.namespace :
+                                                                         'Appliance.System.All',
+                                                'timestamp': parseInt(Platform.config.timestamp),
+                                                'payloadVersion': 1
+                                        },
+                                        'payload': (typeof msg.payload === 'boolean') ?
+                                         {
+                                                'togglex': {
+                                                        'onoff': msg.payload ? 1 : 0,
+                                                        'channel': msg.channel || 0
+                                                }
+                                        } :
+                                        {}
+                                });
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Content-Length': thisBody.length
 				}, 
-				body: JSON.stringify({
-					'header': {
-						'messageId': Platform.config.messageid,
-						'method': (typeof msg.payload === 'boolean') ?
-								  'SET' :
-								  'GET',
-						'from': 'http://' + Platform.ip + '/config',
-						'sign': Platform.config.token,
-						'namespace': (typeof msg.payload === 'boolean') ?
-									 'Appliance.Control.ToggleX' :
-									 (msg.payload.namespace !== undefined) ?
-									 msg.payload.namespace :
-									 'Appliance.System.All',
-						'timestamp': parseInt(Platform.config.timestamp),
-						'payloadVersion': 1
-					},
-					'payload': (typeof msg.payload === 'boolean') ?
-					 {
-						'togglex': {
-							'onoff': msg.payload ? 1 : 0,
-							'channel': msg.channel || 0
-						}
-					} : 
-					{}
-				})
+				body: thisBody
 			}, function(myError, myResponse, myBody) {
 				if(myError) {
 					Platform.warn('There was an Error: ' + myError);

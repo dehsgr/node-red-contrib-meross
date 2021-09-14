@@ -12,35 +12,37 @@ module.exports = function(RED) {
 		this.channel = parseInt(myNode.channel || 0);
 
 		this.on('input', function (msg) {
+			var thisBody = JSON.stringify({
+                                        'header': {
+                                                'messageId': Platform.config.messageid,
+                                                'method': (typeof msg.payload === 'boolean') ?
+                                                                  'SET' :
+                                                                  'GET',
+                                                'from': 'http://' + Platform.ip + '/config',
+                                                'sign': Platform.config.token,
+                                                'namespace': (typeof msg.payload === 'boolean') ?
+                                                                         'Appliance.GarageDoor.State' :
+                                                                         'Appliance.System.All',
+                                                'timestamp': parseInt(Platform.config.timestamp),
+                                                'payloadVersion': 1
+                                        },
+                                        'payload': (typeof msg.payload === 'boolean') ?
+                                         {
+                                                'state': {
+                                                        'open': msg.payload ? 1 : 0,
+                                                        'channel': Platform.channel,
+                                                        'uuid': makeUUID(16)
+                                                }
+                                        } :
+                                        {}
+                                });
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Content-Length': thisBody.length
 				}, 
-				body: JSON.stringify({
-					'header': {
-						'messageId': Platform.config.messageid,
-						'method': (typeof msg.payload === 'boolean') ?
-								  'SET' :
-								  'GET',
-						'from': 'http://' + Platform.ip + '/config',
-						'sign': Platform.config.token,
-						'namespace': (typeof msg.payload === 'boolean') ?
-									 'Appliance.GarageDoor.State' :
-									 'Appliance.System.All',
-						'timestamp': parseInt(Platform.config.timestamp),
-						'payloadVersion': 1
-					},
-					'payload': (typeof msg.payload === 'boolean') ?
-					 {
-						'state': {
-							'open': msg.payload ? 1 : 0,
-							'channel': Platform.channel,
-							'uuid': makeUUID(16)
-						}
-					} : 
-					{}
-				})
+				body: thisBody
 			}, function(myError, myResponse, myBody) {
 				if(myError) {
 					Platform.warn('There was an Error: ' + myError);
