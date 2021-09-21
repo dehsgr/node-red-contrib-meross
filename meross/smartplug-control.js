@@ -14,7 +14,8 @@ module.exports = function(RED) {
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Content-Length': 0,
 				}, 
 				body: JSON.stringify({
 					'header': {
@@ -33,15 +34,20 @@ module.exports = function(RED) {
 						'payloadVersion': 1
 					},
 					'payload': (typeof msg.payload === 'boolean') ?
-					 {
+					{
 						'togglex': {
 							'onoff': msg.payload ? 1 : 0,
 							'channel': msg.channel || 0
 						}
 					} : 
 					{}
-				})
-			}, function(myError, myResponse, myBody) {
+				}),
+				init: function() {
+					this.headers["Content-Length"] = this.body.length;
+					delete this.init;
+
+					return this;
+			}}.init(), function(myError, myResponse, myBody) {
 				if(myError) {
 					Platform.warn('There was an Error: ' + myError);
 				} else {
@@ -64,7 +70,7 @@ module.exports = function(RED) {
 
 					Platform.send({ payload : r });
 				}
-			});	   
+			});
 		});
 	}
 
