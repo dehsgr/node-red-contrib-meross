@@ -5,6 +5,7 @@ module.exports = function(RED) {
 
 	function SmartPlugNode(myNode) {
 		RED.nodes.createNode(this, myNode);
+		var Crypto = require('crypto');
 		var Platform = this;
 
 		this.config = RED.nodes.getNode(myNode.confignode);
@@ -15,22 +16,22 @@ module.exports = function(RED) {
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
 					'Content-Type': 'application/json',
-					'Content-Length': 0,
+					'Content-Length': undefined,
 				}, 
-				body: JSON.stringify({
+				body: {
 					'header': {
-						'messageId': Platform.config.messageid,
+						'messageId': undefined,
 						'method': (typeof msg.payload === 'boolean') ?
 								  'SET' :
 								  'GET',
 						'from': 'http://' + Platform.ip + '/config',
-						'sign': Platform.config.token,
+						'sign': undefined,
 						'namespace': (typeof msg.payload === 'boolean') ?
 									 'Appliance.Control.ToggleX' :
 									 (msg.payload.namespace !== undefined) ?
 									 msg.payload.namespace :
 									 'Appliance.System.All',
-						'timestamp': parseInt(Platform.config.timestamp),
+						'timestamp': undefined,
 						'payloadVersion': 1
 					},
 					'payload': (typeof msg.payload === 'boolean') ?
@@ -41,9 +42,21 @@ module.exports = function(RED) {
 						}
 					} : 
 					{}
-				}),
+				},
 				init: function() {
+					this.body.header.timestamp = Math.floor(Date.now()/1000);
+					this.body.header.messageId = Crypto.createHash('md5').update(
+						this.body.header.timestamp.toString()
+					).digest('hex');
+					this.body.header.sign = Crypto.createHash('md5').update(
+						this.body.header.messageId + 
+						Platform.config.key +
+						this.body.header.timestamp
+					).digest('hex');
+
+					this.body = JSON.stringify(this.body);
 					this.headers["Content-Length"] = this.body.length;
+
 					delete this.init;
 
 					return this;
