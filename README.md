@@ -32,7 +32,8 @@ Meross Garage Door can be used to set garage doors state and/or poll its current
     <td>
       - MSS110<br/>
       - MSS210<br/>
-      - MSS310<br />
+      - MSS310<br/>
+      - MSS425<br />
     </td>
   </tr>
   <tr>
