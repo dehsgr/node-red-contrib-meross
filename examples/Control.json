@@ -1,0 +1,148 @@
+[
+	{
+		"id": "88f87bae.10d938",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Query",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": true,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payloadType": "date",
+		"x": 210,
+		"y": 100,
+		"wires": [
+			[
+				"f7696f8c.ae16c"
+			]
+		]
+	},
+	{
+		"id": "5b5e94ca.a0c614",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Off",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payload": "false",
+		"payloadType": "bool",
+		"x": 90,
+		"y": 80,
+		"wires": [
+			[
+				"75569f63.2ef028"
+			]
+		]
+	},
+	{
+		"id": "75569f63.2ef028",
+		"type": "change",
+		"z": "2f4bfaac9dda89f1",
+		"name": "On/Off",
+		"rules": [
+			{
+				"t": "set",
+				"p": "topic",
+				"pt": "msg",
+				"to": "0/On",
+				"tot": "str"
+			},
+			{
+				"t": "set",
+				"p": "payload",
+				"pt": "msg",
+				"to": "payload",
+				"tot": "jsonata"
+			}
+		],
+		"action": "",
+		"property": "",
+		"from": "",
+		"to": "",
+		"reg": false,
+		"x": 210,
+		"y": 60,
+		"wires": [
+			[
+				"f7696f8c.ae16c"
+			]
+		]
+	},
+	{
+		"id": "f7696f8c.ae16c",
+		"type": "smartplug-control",
+		"z": "2f4bfaac9dda89f1",
+		"confignode": "b8b2773d1593e493",
+		"name": "",
+		"ip": "192.168.123.123",
+		"x": 350,
+		"y": 80,
+		"wires": [
+			[
+				"411dc30e7c327e89"
+			]
+		]
+	},
+	{
+		"id": "316fa677705073fb",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "On",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payload": "true",
+		"payloadType": "bool",
+		"x": 90,
+		"y": 40,
+		"wires": [
+			[
+				"75569f63.2ef028"
+			]
+		]
+	},
+	{
+		"id": "411dc30e7c327e89",
+		"type": "debug",
+		"z": "2f4bfaac9dda89f1",
+		"name": "State",
+		"active": true,
+		"tosidebar": true,
+		"console": false,
+		"tostatus": false,
+		"complete": "true",
+		"targetType": "full",
+		"statusVal": "",
+		"statusType": "auto",
+		"x": 490,
+		"y": 80,
+		"wires": []
+	},
+	{
+		"id": "b8b2773d1593e493",
+		"type": "meross-config",
+		"name": "Sample",
+		"key": "abcdef01234567890abcdef01234567890"
+	}
+]
