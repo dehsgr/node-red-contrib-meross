@@ -32,6 +32,7 @@ module.exports = function(RED) {
 									 msg.payload.namespace :
 									 'Appliance.System.All',
 						'timestamp': undefined,
+						'triggerSrc': "NodeRedPluginLocal",
 						'payloadVersion': 1
 					},
 					'payload': (typeof msg.payload === 'boolean') ?

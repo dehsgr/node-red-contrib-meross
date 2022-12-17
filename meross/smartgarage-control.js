@@ -31,6 +31,7 @@ module.exports = function(RED) {
 									 'Appliance.GarageDoor.State' :
 									 'Appliance.System.All',
 						'timestamp': undefined,
+						'triggerSrc': "NodeRedPluginLocal",
 						'payloadVersion': 1
 					},
 					'payload': (typeof msg.payload === 'boolean') ?
