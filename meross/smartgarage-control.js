@@ -83,7 +83,13 @@ module.exports = function(RED) {
 					catch (e) {
 						var r = 'Received unexpected data!';
 					}
-					Platform.send({ payload : r });
+
+					Platform.send(
+						{
+							origin: msg,
+							payload : r
+						}
+					);
 				}
 			});
 		});
