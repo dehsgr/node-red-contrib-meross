@@ -15,7 +15,7 @@
 		"onceDelay": 0.1,
 		"topic": "",
 		"payloadType": "date",
-		"x": 210,
+		"x": 250,
 		"y": 100,
 		"wires": [
 			[
@@ -44,7 +44,7 @@
 		"y": 80,
 		"wires": [
 			[
-				"75569f63.2ef028"
+				"960c0f9805534d23"
 			]
 		]
 	},
@@ -74,7 +74,7 @@
 		"from": "",
 		"to": "",
 		"reg": false,
-		"x": 210,
+		"x": 250,
 		"y": 60,
 		"wires": [
 			[
@@ -89,7 +89,7 @@
 		"confignode": "b8b2773d1593e493",
 		"name": "",
 		"ip": "192.168.123.123",
-		"x": 350,
+		"x": 390,
 		"y": 80,
 		"wires": [
 			[
@@ -118,7 +118,7 @@
 		"y": 40,
 		"wires": [
 			[
-				"75569f63.2ef028"
+				"055dc83e29582ff5"
 			]
 		]
 	},
@@ -135,9 +135,174 @@
 		"targetType": "full",
 		"statusVal": "",
 		"statusType": "auto",
-		"x": 490,
+		"x": 550,
 		"y": 80,
 		"wires": []
+	},
+	{
+		"id": "690645f6a165759c",
+		"type": "smartgarage-control",
+		"z": "2f4bfaac9dda89f1",
+		"confignode": "b8b2773d1593e493",
+		"name": "",
+		"ip": "192.168.123.147",
+		"channel": "0",
+		"x": 400,
+		"y": 200,
+		"wires": [
+			[
+				"1a65295e6884fe1a"
+			]
+		]
+	},
+	{
+		"id": "b1b4ee832457ef9c",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Query",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": true,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payloadType": "date",
+		"x": 250,
+		"y": 220,
+		"wires": [
+			[
+				"690645f6a165759c"
+			]
+		]
+	},
+	{
+		"id": "ba660bf245905d33",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Close",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payload": "false",
+		"payloadType": "bool",
+		"x": 90,
+		"y": 200,
+		"wires": [
+			[
+				"8cb07af171c754b8"
+			]
+		]
+	},
+	{
+		"id": "8cb07af171c754b8",
+		"type": "change",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Open/Close",
+		"rules": [
+			{
+				"t": "set",
+				"p": "topic",
+				"pt": "msg",
+				"to": "0/Open",
+				"tot": "str"
+			},
+			{
+				"t": "set",
+				"p": "payload",
+				"pt": "msg",
+				"to": "payload",
+				"tot": "jsonata"
+			}
+		],
+		"action": "",
+		"property": "",
+		"from": "",
+		"to": "",
+		"reg": false,
+		"x": 230,
+		"y": 180,
+		"wires": [
+			[
+				"690645f6a165759c"
+			]
+		]
+	},
+	{
+		"id": "66038af516391d44",
+		"type": "inject",
+		"z": "2f4bfaac9dda89f1",
+		"name": "Open",
+		"props": [
+			{
+				"p": "payload"
+			}
+		],
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"onceDelay": 0.1,
+		"topic": "",
+		"payload": "true",
+		"payloadType": "bool",
+		"x": 90,
+		"y": 160,
+		"wires": [
+			[
+				"8cb07af171c754b8"
+			]
+		]
+	},
+	{
+		"id": "1a65295e6884fe1a",
+		"type": "debug",
+		"z": "2f4bfaac9dda89f1",
+		"name": "State",
+		"active": true,
+		"tosidebar": true,
+		"console": false,
+		"tostatus": false,
+		"complete": "true",
+		"targetType": "full",
+		"statusVal": "",
+		"statusType": "auto",
+		"x": 550,
+		"y": 200,
+		"wires": []
+	},
+	{
+		"id": "055dc83e29582ff5",
+		"type": "junction",
+		"z": "2f4bfaac9dda89f1",
+		"x": 180,
+		"y": 40,
+		"wires": [
+			[
+				"75569f63.2ef028"
+			]
+		]
+	},
+	{
+		"id": "960c0f9805534d23",
+		"type": "junction",
+		"z": "2f4bfaac9dda89f1",
+		"x": 180,
+		"y": 80,
+		"wires": [
+			[
+				"75569f63.2ef028"
+			]
+		]
 	},
 	{
 		"id": "b8b2773d1593e493",
