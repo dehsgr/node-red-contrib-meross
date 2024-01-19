@@ -11,13 +11,13 @@ module.exports = function(RED) {
 		this.config = RED.nodes.getNode(myNode.confignode);
 		this.ip = myNode.ip;
 
-
 		this.channel = parseInt(myNode.channel || 0);
 
 		this.on('input', function (msg) {
 			if(msg !== undefined && msg.ip !== undefined) {
 				Platform.ip = msg.ip;
 			}
+
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
