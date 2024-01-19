@@ -13,6 +13,7 @@ module.exports = function(RED) {
 		if(msg !== undefined && msg.ip !== undefined) {
 			this.ip = msg.ip;
 		}
+
 		this.channel = parseInt(myNode.channel || 0);
 
 		this.on('input', function (msg) {
