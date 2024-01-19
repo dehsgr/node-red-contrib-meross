@@ -6,7 +6,7 @@ Meross Config is a config node to set the token, message id and timestamp for be
 
 ## Meross Smart Plug
 Meross Smart Plug can be used to set smart plugs state and/or poll its current state. For setting smart plugs state to on|off you simply provide a boolean value (true|false). To request its current state you send any non-boolean payload.
-If your smart plug has multiple channels, all channels are triggered by default. You might control specific channels by passing the desired channel index via msg.channel attribute (1...n, 0=all channels).
+If your smart plug has multiple channels, all channels are triggered by default. You might control specific channels by passing the desired channel index via msg.channel attribute (1...n, 0=all channels). You might set the ip by passing the ip adress of your meross device via msg.ip attribute (e.g. '192.168.0.10')
 
 You might query Electricity Information from your Smart Plug (if supported) with the following payload:
 <pre>
