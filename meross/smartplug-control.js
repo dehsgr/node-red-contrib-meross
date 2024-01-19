@@ -10,7 +10,10 @@ module.exports = function(RED) {
 
 		this.config = RED.nodes.getNode(myNode.confignode);
 		this.ip = myNode.ip;
-
+		if(msg !== undefined && msg.ip !== undefined) {
+			this.ip = msg.ip;
+		}
+		
 		this.on('input', function (msg) {
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
