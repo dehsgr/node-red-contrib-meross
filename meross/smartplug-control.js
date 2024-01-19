@@ -9,14 +9,11 @@ module.exports = function(RED) {
 		var Platform = this;
 
 		this.config = RED.nodes.getNode(myNode.confignode);
-		if(msg !== undefined){
+		this.ip = myNode.ip;
+		if(msg !== undefined && msg.ip !== undefined) {
 			this.ip = msg.ip;
 		}
 		
-		if(this.ip === undefined){
-			this.ip = myNode.ip;
-		}
-
 		this.on('input', function (msg) {
 			request.post({
 				url: 'http://' + Platform.ip + '/config',
