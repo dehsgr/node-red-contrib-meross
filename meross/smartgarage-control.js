@@ -77,7 +77,7 @@ module.exports = function(RED) {
 				}
 			}.init(), function(myError, myResponse, myBody) {
 				if(myError) {
-					Platform.warn('There was an Error: ' + myError);
+					Platform.error('There was an Error: ' + myError, msg);
 				} else {
 					var j = JSON.parse(myResponse.body);
 					try {
