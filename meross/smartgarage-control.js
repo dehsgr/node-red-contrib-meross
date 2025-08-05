@@ -19,6 +19,7 @@ module.exports = function(RED) {
 			}
 
 			axios.request({
+				insecureHTTPParser: true,
 				method: 'post',
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
