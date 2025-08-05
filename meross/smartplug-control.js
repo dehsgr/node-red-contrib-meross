@@ -1,4 +1,4 @@
-const request = require('request');
+const axios = require('axios');
 
 module.exports = function(RED) {
 	'use strict';
@@ -16,13 +16,14 @@ module.exports = function(RED) {
 				Platform.ip = msg.ip;
 			}
 
-			request.post({
+			axios.request({
+				method: 'post',
 				url: 'http://' + Platform.ip + '/config',
 				headers: {
 					'Content-Type': 'application/json',
 					'Content-Length': undefined,
 				}, 
-				body: {
+				data: {
 					'header': {
 						'messageId': undefined,
 						'method': (typeof msg.payload === 'boolean') ?
@@ -49,50 +50,57 @@ module.exports = function(RED) {
 					{}
 				},
 				init: function() {
-					this.body.header.timestamp = Math.floor(Date.now()/1000);
-					this.body.header.messageId = Crypto.createHash('md5').update(
-						this.body.header.timestamp.toString()
+					this.data.header.timestamp = Math.floor(Date.now()/1000);
+					this.data.header.messageId = Crypto.createHash('md5').update(
+						this.data.header.timestamp.toString()
 					).digest('hex');
-					this.body.header.sign = Crypto.createHash('md5').update(
-						this.body.header.messageId + 
+					this.data.header.sign = Crypto.createHash('md5').update(
+						this.data.header.messageId + 
 						Platform.config.key +
-						this.body.header.timestamp
+						this.data.header.timestamp
 					).digest('hex');
 
-					this.body = JSON.stringify(this.body);
-					this.headers["Content-Length"] = this.body.length;
+					if (this.data.payload !== undefined &&
+						this.data.payload.state !== undefined)
+					{
+						this.data.payload.state.uuid = Crypto.createHash('md5').update(
+							this.data.header.from
+						).digest('hex');
+					}
+
+					this.data = JSON.stringify(this.data);
+					this.headers["Content-Length"] = this.data.length;
 
 					delete this.init;
 
 					return this;
-			}}.init(), function(myError, myResponse, myBody) {
-				if(myError) {
-					Platform.error('There was an Error: ' + myError, msg);
-				} else {
-					var j = JSON.parse(myResponse.body);
-					try {
-						switch (j.header.namespace) {
-							case 'Appliance.Control.Electricity':
-								r = j.payload;
-								break;
-
-							default:
-								var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
-								msg.payload :
-								j.payload.all.digest.togglex[msg.channel || 0].onoff === 1 ? true : false;
-						}
-					}
-					catch (e) {
-						var r = 'Received unexpected data!';
-					}
-
-					Platform.send(
-						{
-							origin: msg,
-							payload : r
-						}
-					);
 				}
+			}.init()).then(function(myResponse) {
+				var j = myResponse.data;
+				try {
+					switch (j.header.namespace) {
+						case 'Appliance.Control.Electricity':
+							r = j.payload;
+							break;
+
+						default:
+							var r = (j.header.method !== undefined && j.header.method === 'SETACK') ?
+							msg.payload :
+							j.payload.all.digest.togglex[msg.channel || 0].onoff === 1 ? true : false;
+					}
+				}
+				catch (e) {
+					var r = 'Received unexpected data!';
+				}
+
+				Platform.send(
+					{
+						origin: msg,
+						payload : r
+					}
+				);
+			}).catch(function(myError) {
+				Platform.error('There was an Error: ' + myError, msg);
 			});
 		});
 	}

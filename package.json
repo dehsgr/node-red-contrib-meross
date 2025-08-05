@@ -9,7 +9,7 @@
 		"meross"
 	],
 	"node-red": {
-		"version": ">=1.2.6",
+		"version": ">=1.3.0",
 		"nodes": {
 			"meross-config": "meross/meross-config.js",
 			"smartplug-control": "meross/smartplug-control.js",
@@ -21,7 +21,7 @@
 		"url": "https://github.com/dehsgr/node-red-contrib-meross.git"
 	},
 	"dependencies": {
-		"request": "^2.75.0"
+		"axios": "^1.0.0"
 	},
 	"engines": {
 		"node": ">=12.0.0"
